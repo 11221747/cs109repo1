@@ -10,7 +10,7 @@ import Game1.views.GameFrame;
 import javax.swing.*;
 
 
-public class GameController {
+public class GameController  {
     private static final String SAVE_DIR = "saves/";
     private static final String SAVE_EXT = ".klotski";
 
@@ -64,6 +64,7 @@ public class GameController {
             });
         }
     }
+
 
     //写入游戏
     public boolean saveGame() {

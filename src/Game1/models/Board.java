@@ -61,7 +61,7 @@ public class Board implements Serializable {
     }
 
 
-    //修改逻辑！！为左下角为原点，chess被放进棋盘就占位，bool havechess = true
+
     public boolean canMove(Block block, Direction direction) {
         int dx = 0, dy = 0;
         switch (direction) {

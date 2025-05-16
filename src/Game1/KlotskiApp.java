@@ -19,8 +19,6 @@ public class KlotskiApp {
 
             UserController userController = new UserController();
             GameController gameController = new GameController();
-            GameFrame gameFrame = new GameFrame(gameController);
-            gameController.setGameframe(gameFrame);
 
             LoginFrame loginFrame = new LoginFrame(userController, gameController);
             loginFrame.setVisible(true);

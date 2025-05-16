@@ -83,7 +83,7 @@ public class LoginFrame extends JFrame {
 
     private void openGameFrame() {
         GameFrame gameFrame = new GameFrame(gameController);
-
+        gameController.setGameframe(gameFrame);
         gameFrame.setVisible(true);
         dispose();
     }

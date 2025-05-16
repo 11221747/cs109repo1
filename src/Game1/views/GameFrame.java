@@ -5,10 +5,7 @@ package Game1.views;
 import javax.swing.*;
 import Game1.Controllers.GameController;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 import Game1.models.Block;
 import Game1.models.Board;
@@ -26,6 +23,7 @@ public class GameFrame extends JFrame {
 
     private Block selectedBlock;
 
+    //构造方法
     public GameFrame(GameController controller) {
         this.controller = controller;
         initUI();
@@ -87,21 +85,12 @@ public class GameFrame extends JFrame {
 
         add(controlPanel, BorderLayout.SOUTH);
 
-
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP: controller.moveBlock(Board.Direction.UP); break;
-                    case KeyEvent.VK_DOWN: controller.moveBlock(Board.Direction.DOWN); break;
-                    case KeyEvent.VK_LEFT: controller.moveBlock(Board.Direction.LEFT); break;
-                    case KeyEvent.VK_RIGHT: controller.moveBlock(Board.Direction.RIGHT); break;
-                }
-            }
-        });
-
         pack();
         setLocationRelativeTo(null);
+
+
+
+
     }
 
 
@@ -109,6 +98,21 @@ public class GameFrame extends JFrame {
 
     private class BoardPanel extends JPanel {
         public BoardPanel() {
+
+            //尝试1绑定键盘
+            InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            ActionMap actionMap = getActionMap();
+
+            // 绑定方向键 ↑
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
+            actionMap.put("moveUp", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    controller.moveBlock(Board.Direction.UP);
+                }
+            });
+
+
             setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
             setBackground(Color.LIGHT_GRAY);
 
