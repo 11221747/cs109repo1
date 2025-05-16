@@ -99,11 +99,15 @@ public class GameFrame extends JFrame {
     private class BoardPanel extends JPanel {
         public BoardPanel() {
 
+            setFocusable(true);  // 允许面板获得焦点     //确实聚焦了，虽然也不完全清楚背后原理
+            requestFocusInWindow(); // 主动请求焦点           监听是不是太多了点？
+
             //尝试1绑定键盘
             InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             ActionMap actionMap = getActionMap();
 
-            // 绑定方向键 ↑
+            // 绑定方向键
+            //这个版本必须先用鼠标点一下？这样就focus了才行？
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
             actionMap.put("moveUp", new AbstractAction() {
                 @Override
@@ -111,11 +115,44 @@ public class GameFrame extends JFrame {
                     controller.moveBlock(Board.Direction.UP);
                 }
             });
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
+            actionMap.put("moveDown", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    controller.moveBlock(Board.Direction.DOWN);
+                }
+            });
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
+            actionMap.put("moveLeft", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    controller.moveBlock(Board.Direction.LEFT);
+                }
+            });
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
+            actionMap.put("moveRight", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    controller.moveBlock(Board.Direction.RIGHT);
+                }
+            });
 
 
+            //重新获取聚焦    测试了用不到不管了
+            /*
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    requestFocusInWindow();
+                }
+            });
+            */
+
+            //set...
             setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
             setBackground(Color.LIGHT_GRAY);
 
+            //获取选中的方块
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     Point p = new Point(evt.getX() / CELL_SIZE, evt.getY() / CELL_SIZE);
