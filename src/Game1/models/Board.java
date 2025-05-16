@@ -36,7 +36,6 @@ public class Board implements Serializable {
         blocks.add(new Block(Block.BlockType.GUAN_YU, 1, 2, 2, 1, Color.BLUE));
 
         // Generals (1x2)
-        /*先测试
         blocks.add(new Block(Block.BlockType.GENERAL, 0, 0, 1, 2, Color.GREEN));
         blocks.add(new Block(Block.BlockType.GENERAL, 0, 2, 1, 2, Color.GREEN));
         blocks.add(new Block(Block.BlockType.GENERAL, 3, 0, 1, 2, Color.GREEN));
@@ -49,7 +48,6 @@ public class Board implements Serializable {
         blocks.add(new Block(Block.BlockType.SOLDIER, 0, 4, 1, 1, Color.YELLOW));
         blocks.add(new Block(Block.BlockType.SOLDIER, 3, 4, 1, 1, Color.YELLOW));
 
-         */
     }
 
 
@@ -123,7 +121,7 @@ public class Board implements Serializable {
                 .findFirst()
                 .orElse(null);
 
-        return cao != null && cao.getY() == 2 && cao.getX() == 1;
+        return cao != null && cao.getY() == 3 && cao.getX() == 1;
     }
 
 
