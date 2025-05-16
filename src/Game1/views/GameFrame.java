@@ -22,6 +22,8 @@ public class GameFrame extends JFrame {
 
     private GameController controller;
     private BoardPanel boardPanel;
+
+
     private Block selectedBlock;
 
     public GameFrame(GameController controller) {
@@ -46,10 +48,10 @@ public class GameFrame extends JFrame {
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
 
-        upButton.addActionListener(e -> moveBlock(Board.Direction.UP));
-        downButton.addActionListener(e -> moveBlock(Board.Direction.DOWN));
-        leftButton.addActionListener(e -> moveBlock(Board.Direction.LEFT));
-        rightButton.addActionListener(e -> moveBlock(Board.Direction.RIGHT));
+        upButton.addActionListener(e -> controller.moveBlock(Board.Direction.UP));
+        downButton.addActionListener(e ->  controller.moveBlock(Board.Direction.DOWN));
+        leftButton.addActionListener(e ->  controller.moveBlock(Board.Direction.LEFT));
+        rightButton.addActionListener(e ->  controller.moveBlock(Board.Direction.RIGHT));
 
         resetButton.addActionListener(e -> {
             controller.resetGame();
@@ -90,10 +92,10 @@ public class GameFrame extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP: moveBlock(Board.Direction.UP); break;
-                    case KeyEvent.VK_DOWN: moveBlock(Board.Direction.DOWN); break;
-                    case KeyEvent.VK_LEFT: moveBlock(Board.Direction.LEFT); break;
-                    case KeyEvent.VK_RIGHT: moveBlock(Board.Direction.RIGHT); break;
+                    case KeyEvent.VK_UP: controller.moveBlock(Board.Direction.UP); break;
+                    case KeyEvent.VK_DOWN: controller.moveBlock(Board.Direction.DOWN); break;
+                    case KeyEvent.VK_LEFT: controller.moveBlock(Board.Direction.LEFT); break;
+                    case KeyEvent.VK_RIGHT: controller.moveBlock(Board.Direction.RIGHT); break;
                 }
             }
         });
@@ -102,21 +104,7 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void moveBlock(Board.Direction direction) {
-        if (selectedBlock == null) return;
 
-        Board board = controller.getBoard();
-        board.moveBlock(selectedBlock, direction);
-        boardPanel.repaint();
-
-        if (controller.isWin()) {
-            JOptionPane.showMessageDialog(this,
-                    "Congratulations! You won in " + board.getMoves() + " moves!");
-            controller.resetGame();
-            selectedBlock = null;
-            boardPanel.repaint();
-        }
-    }
 
 
     private class BoardPanel extends JPanel {
@@ -196,4 +184,33 @@ public class GameFrame extends JFrame {
             g.drawString("Moves: " + controller.getBoard().getMoves(), 10, 20);
         }
     }
+
+
+    //javabean
+
+    public Block getSelectedBlock() {
+        return selectedBlock;
+    }
+
+    public void setSelectedBlock(Block selectedBlock) {
+        this.selectedBlock = selectedBlock;
+    }
+
+    public BoardPanel getBoardPanel() {
+        return boardPanel;
+    }
+
+    public void setBoardPanel(BoardPanel boardPanel) {
+        this.boardPanel = boardPanel;
+    }
+
+    public GameController getController() {
+        return controller;
+    }
+
+    public void setController(GameController controller) {
+        this.controller = controller;
+    }
+
+
 }

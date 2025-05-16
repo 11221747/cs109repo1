@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import Game1.Controllers.GameController;
 import Game1.Controllers.UserController;
+import Game1.views.GameFrame;
 import Game1.views.LoginFrame;
 
 
@@ -18,6 +19,8 @@ public class KlotskiApp {
 
             UserController userController = new UserController();
             GameController gameController = new GameController();
+            GameFrame gameFrame = new GameFrame(gameController);
+            gameController.setGameframe(gameFrame);
 
             LoginFrame loginFrame = new LoginFrame(userController, gameController);
             loginFrame.setVisible(true);

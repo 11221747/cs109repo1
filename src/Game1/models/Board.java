@@ -11,8 +11,8 @@ public class Board implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public static final int ROWS = 4;
-    public static final int COLS = 5;
+    public static final int ROWS = 5;
+    public static final int COLS = 4;
 
     private List<Block> blocks;
     private int moves;
@@ -22,25 +22,31 @@ public class Board implements Serializable {
         moves = 0;
     }
 
+
+    //初始化棋盘：可以加上不同的难度，文件读取
+
     private void initializeBlocks() {
         blocks = new ArrayList<>();
 
+        //布局1.横刀立马
         // Cao Cao (2x2)
         blocks.add(new Block(Block.BlockType.CAO_CAO, 1, 0, 2, 2, Color.RED));
 
         // Guan Yu (2x1)
-        blocks.add(new Block(Block.BlockType.GUAN_YU, 0, 2, 2, 1, Color.BLUE));
+        blocks.add(new Block(Block.BlockType.GUAN_YU, 1, 2, 2, 1, Color.BLUE));
 
         // Generals (1x2)
-        blocks.add(new Block(Block.BlockType.GENERAL, 4, 0, 1, 2, Color.GREEN));
-        blocks.add(new Block(Block.BlockType.GENERAL, 2, 2, 1, 2, Color.GREEN));
+        blocks.add(new Block(Block.BlockType.GENERAL, 0, 0, 1, 2, Color.GREEN));
+        blocks.add(new Block(Block.BlockType.GENERAL, 0, 2, 1, 2, Color.GREEN));
+        blocks.add(new Block(Block.BlockType.GENERAL, 3, 0, 1, 2, Color.GREEN));
+        blocks.add(new Block(Block.BlockType.GENERAL, 3, 2, 1, 2, Color.GREEN));
 
 
         // Soldiers (1x1)
-        blocks.add(new Block(Block.BlockType.SOLDIER, 0, 1, 1, 1, Color.YELLOW));
-        blocks.add(new Block(Block.BlockType.SOLDIER, 3, 2, 1, 1, Color.YELLOW));
         blocks.add(new Block(Block.BlockType.SOLDIER, 1, 3, 1, 1, Color.YELLOW));
-        blocks.add(new Block(Block.BlockType.SOLDIER, 3, 3, 1, 1, Color.YELLOW));
+        blocks.add(new Block(Block.BlockType.SOLDIER, 2, 3, 1, 1, Color.YELLOW));
+        blocks.add(new Block(Block.BlockType.SOLDIER, 0, 4, 1, 1, Color.YELLOW));
+        blocks.add(new Block(Block.BlockType.SOLDIER, 3, 4, 1, 1, Color.YELLOW));
     }
 
 
@@ -72,12 +78,12 @@ public class Board implements Serializable {
         }
 
         // Check collision with other blocks
-        for (Block other : blocks) {
-            if (other == block) continue;
+        for (Block otherblocks : blocks) {
+            if (otherblocks == block) continue;
 
             if (rectanglesOverlap(
                     block.getX() + dx, block.getY() + dy, block.getWidth(), block.getHeight(),
-                    other.getX(), other.getY(), other.getWidth(), other.getHeight())) {
+                    otherblocks.getX(), otherblocks.getY(), otherblocks.getWidth(), otherblocks.getHeight())) {
                 return false;
             }
         }
@@ -106,6 +112,8 @@ public class Board implements Serializable {
         moves++;
     }
 
+
+    //游戏胜利的判断
     public boolean isWin() {
         Block cao = blocks.stream()
                 .filter(b -> b.getType() == Block.BlockType.CAO_CAO)
@@ -116,6 +124,12 @@ public class Board implements Serializable {
     }
 
 
+    //工具方法
+    //重置方法
+    public void reset() {
+        initializeBlocks();
+        moves = 0;
+    }
 
     //枚举类   javabean
     public enum Direction { UP, DOWN, LEFT, RIGHT }
@@ -131,8 +145,5 @@ public class Board implements Serializable {
         moves++;
     }
 
-    public void reset() {
-        initializeBlocks();
-        moves = 0;
-    }
+
 }

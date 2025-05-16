@@ -1,12 +1,14 @@
 package Game1.Controllers;
 
 
-
-
 import java.io.*;
 import Game1.models.Board;
 import Game1.models.GameState;
 import Game1.models.User;
+import Game1.views.GameFrame;
+
+import javax.swing.*;
+
 
 public class GameController {
     private static final String SAVE_DIR = "saves/";
@@ -15,10 +17,23 @@ public class GameController {
     private Board board;
     private User currentUser;
 
+    public GameFrame getGameframe() {
+        return gameframe;
+    }
+
+    public void setGameframe(GameFrame gameframe) {
+        this.gameframe = gameframe;
+    }
+
+    private GameFrame gameframe;
+
     //构造方法和设置用户
+    //注意依赖注入gameframe
     public GameController() {
         this.board = new Board();
     }
+
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
@@ -31,9 +46,23 @@ public class GameController {
     }
 
 
-    public boolean moveBlock(Board.Direction direction) {
-        // 之后写
-        return false;
+    public void moveBlock(Board.Direction direction) {
+        if (gameframe.getSelectedBlock() == null) return;
+
+        Board board = getBoard();
+        board.moveBlock(gameframe.getSelectedBlock(), direction);
+        gameframe.repaint();
+
+        //判断胜利直接终止
+        if (isWin()) {
+            JOptionPane.showMessageDialog(gameframe,
+                    "Congratulations! You won in " + board.getMoves() + " moves!");
+            resetGame();
+            gameframe.setSelectedBlock(null);
+            SwingUtilities.invokeLater(() -> {
+                gameframe.repaint();
+            });
+        }
     }
 
     //写入游戏
